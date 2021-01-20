@@ -13,23 +13,19 @@ function Book(title, author, pages, read){
     }
 }
 
-function addBookToLibrary(){
+function addBookToLibrary(e){
+    e.preventDefault(); //do not submit form
+
     let book = new Book();
 
-    const properties = Object.keys(book).filter(property => property != "info");
-    console.log(properties);
-
-    // loop works but I am too lazy to put if statements in the prompt
-    /* for (property of properties){  
-        console.log(property);
-        book[property] = prompt(`What is ${property}?`);
-    } */
-    book.title = prompt("What is the book title?");
-    book.author = prompt("What is the book author?");
-    book.pages = prompt("What is the book's amount of pages?");
-    book.read = prompt("Have you read this book?");
-
+    book.title = document.getElementById('title').value;
+    book.author = document.getElementById('author').value;
+    book.pages = document.getElementById('numPages').value;
+    book.read = document.getElementById('read').value;
     myLibrary.push(book);
+
+    document.querySelector('form').reset();
+
 }
 
 const container = document.querySelector('.container');
@@ -39,7 +35,45 @@ const form = document.createElement('form');
 form.classList.add('form');
 container.appendChild(form);
 
-const input = document.createElement('input');
-input.type = 'text';
+const bookTitleLabel = document.createElement('label');
+bookTitleLabel.textContent = "Book Title ";
+form.appendChild(bookTitleLabel);
 
-form.appendChild(input);
+const bookTitleInput = document.createElement('input');
+bookTitleInput.type = 'text';
+bookTitleInput.setAttribute('id', 'title');
+form.appendChild(bookTitleInput);
+
+const bookAuthorLabel = document.createElement('label');
+bookAuthorLabel.textContent = "Author ";
+form.appendChild(bookAuthorLabel);
+
+const bookAuthorInput = document.createElement('input');
+bookAuthorInput.type = 'text';
+bookAuthorInput.setAttribute('id', 'author');
+form.appendChild(bookAuthorInput);
+
+const bookPagesLabel = document.createElement('label');
+bookPagesLabel.textContent = "# of pages ";
+form.appendChild(bookPagesLabel);
+
+const bookPagesInput = document.createElement('input');
+bookPagesInput.type = 'text';
+bookPagesInput.setAttribute('id', 'numPages');
+form.appendChild(bookPagesInput);
+
+const bookReadLabel = document.createElement('label');
+bookReadLabel.textContent = "Finished reading? ";
+form.appendChild(bookReadLabel);
+
+const bookReadInput = document.createElement('input');
+bookReadInput.type = 'checkbox';
+bookReadInput.setAttribute('id', 'read');
+form.appendChild(bookReadInput);
+
+const submitNewBook = document.createElement('button');
+//submitNewBook.type = 'submit';
+submitNewBook.textContent = "Add book";
+form.appendChild(submitNewBook);
+submitNewBook.addEventListener('click', addBookToLibrary);
+
